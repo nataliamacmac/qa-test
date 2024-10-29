@@ -26,8 +26,8 @@ Feature: Funcionalidade de Checkout
     When adiciono o primeiro item da página ao carrinho
     And acesso o carrinho e clico em checkout
     And clico em cancelar e retorno a tela anterior
-   When eu removo o item
-   Then o carrinho tem sua quantidade atualizada
+    When eu removo o item
+    Then o carrinho tem sua quantidade atualizada
 
 	@CT04
   Scenario: Retornar ao carrinho após clicar em checkout

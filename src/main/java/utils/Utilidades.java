@@ -1,6 +1,7 @@
 package utils;
 
-     import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WebElement;
+
 
      public class Utilidades {
 
@@ -20,4 +21,12 @@ package utils;
          public boolean elementoEstaVisivel(WebElement elemento) {
              return elemento.isDisplayed();
          }
+         
+     	public void espera(double segundos) {
+    		try {
+    			Thread.sleep((long) segundos * 1000);
+    		} catch (InterruptedException e) {
+    			e.printStackTrace();
+    		}
+    	}
      }

@@ -12,7 +12,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.time.Duration;
+import java.util.Properties;
 
 import org.junit.Assert;
 import utils.Utilidades;
@@ -82,6 +85,7 @@ public class CheckoutSteps {
         configurarDriver();
         driver.get("https://www.saucedemo.com/v1/");
         util = new Utilidades();
+        esperarSerVisivel(campoUsuario,2);
         util.preencherCampo(campoUsuario, "standard_user");
         util.preencherCampo(campoSenha, "secret_sauce");
         util.clicarElemento(botaoLogin);
@@ -90,62 +94,79 @@ public class CheckoutSteps {
 
     @When("adiciono o primeiro item da página ao carrinho")
     public void adicionarSauceLabsBackpackAoCarrinho() {
+    	esperarSerVisivel(botaoAdicionarCarrinho,2);
     	util.clicarElemento(botaoAdicionarCarrinho);
+    	util.espera(1);
     }
 
     @And("acesso o carrinho e clico em checkout")
     public void acessarCarrinhoFazerndoCheckout() {
+    	esperarSerVisivel(botaoCarrinho,2);
         util.clicarElemento(botaoCarrinho);
         util.clicarElemento(botaoCheckout);
+        util.espera(1);
     }
 
     @When("preencho no formulário de checkout nome, sobrenome, and cep com dados válidos")
     public void preencheFormularioCheckoutComDadosValidos() {
+    	esperarSerVisivel(campoNome,2);
         util.preencherCampo(campoNome, "Natalia");
         util.preencherCampo(campoSobrenome, "Machado");
         util.preencherCampo(campoCep, "36000");
+        util.espera(1);
     }
 
     @When("Eu deixo os campos First Name, Last Name e Postal Code em branco")
     public void deixaFormularioCheckoutEmBranco() {
+    	esperarSerVisivel(campoNome,2);
         util.preencherCampo(campoNome, "");
         util.preencherCampo(campoSobrenome, "");
         util.preencherCampo(campoCep, "");
+        util.espera(1);
     }
 
     @When("clico em Continue")
     public void clicarContinuar() {
+    	esperarSerVisivel(botaoContinuar,2);
     	util.clicarElemento(botaoContinuar);
+    	util.espera(1);
     }
 
     @When("clico em cancelar e retorno a tela anterior")
     public void clicarCancelar() {
+    	esperarSerVisivel(botaoCancelar,2);
     	util.clicarElemento(botaoCancelar);
+    	util.espera(1);
         Assert.assertTrue(driver.getCurrentUrl().contains("cart.html"));
-        driver.quit();
+        //driver.quit();
     }
 
     @When("clico no botão em Finish")
     public void clicarFinalizar() {
+    	esperarSerVisivel(botaoFinalizar,2);
     	util.clicarElemento(botaoFinalizar);
+    	util.espera(1);
     }
 
     @Then("o pedido é finalizado com sucesso e exibe mensagem de confirmação")
     public void pedidoComSucesso() {
+    	util.espera(1);
         Assert.assertTrue(util.elementoEstaVisivel(mensagemConfirmacao));
         driver.quit();
     }
 
     @Then("apresenta a mensagem de erro Error First Name is required")
     public void mensagemErroCamposObrigatorios() {
+    	util.espera(1);
         Assert.assertTrue(util.elementoEstaVisivel(mensagemErro));
-        mensagemErro.getText().contains("Error");
+        
         Assert.assertTrue(mensagemErro.getText().contains("Error: First Name is required"));
         driver.quit();
     }
 
     @Then("mostra o resumo das quantidades e valores")
     public void validarTelaFinalComResumo() {
+    	util.espera(1);
         Assert.assertTrue("O item do carrinho não está visível.", util.elementoEstaVisivel(itemCarrinho));
         
         WebElement nomeProduto = driver.findElement(By.className("inventory_item_name"));
@@ -165,11 +186,14 @@ public class CheckoutSteps {
     
     @When("eu removo o item")
     public void reomveItem() {
+    	esperarSerVisivel(botaoRemover,4);
         util.clicarElemento(botaoRemover);
+        util.espera(1);
     }
    
     @Then("o carrinho tem sua quantidade atualizada")
     public void validaCarrinhoVazio() {
+    	util.espera(1);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.numberOfElementsToBe(By.className("cart_item"), 0));
 
@@ -179,18 +203,40 @@ public class CheckoutSteps {
     }
 
     public void configurarDriver() {
-        String browser = System.getProperty("browser", "chrome");
+        Properties prop = new Properties();
+        try {
+            FileInputStream input = new FileInputStream("config.properties");
+            prop.load(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Não foi possível carregar o arquivo config.properties");
+        }
+
+        String browser = prop.getProperty("browser", "chrome").toLowerCase();
+        String chromeDriver = prop.getProperty("chromeDriver", "C:/Automacao/Drivers/113/chromedriver.exe").toLowerCase();
+        String geckoDriver = prop.getProperty("geckoDriver", "C:/Automacao/Drivers/113/geckoDriver.exe").toLowerCase();
+
         if (browser.equals("firefox")) {
-            System.setProperty("webdriver.gecko.driver", "C:/Automacao/Drivers/113");
+            System.setProperty("webdriver.gecko.driver", geckoDriver);
             driver = new FirefoxDriver();
         } else {
-            System.setProperty("webdriver.chrome.driver", "C:/Automacao/Drivers/113/chromedriver.exe");
+            System.setProperty("webdriver.chrome.driver", chromeDriver);
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--remote-allow-origins=*");
             driver = new ChromeDriver(options);
         }
         PageFactory.initElements(driver, this);
     }
+    
+	public boolean esperarSerVisivel(WebElement elemento, int tempoLimiteDeEspera) {
+		boolean elementoVisivel = false;
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(tempoLimiteDeEspera));
+			wait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOf(elemento)));
+			wait.until(ExpectedConditions.visibilityOf(elemento));
+			elementoVisivel = true;
+		return elementoVisivel;
+	}
+    
 }
 
 
