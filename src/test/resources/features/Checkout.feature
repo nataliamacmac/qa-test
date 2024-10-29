@@ -1,7 +1,7 @@
 @Checkout
 Feature: Funcionalidade de Checkout
 
-  Background: Acessar sistema LEXWeb
+  Background: Acessar sistema saucedemo
     Given acessar sistema saucedemo
 
 	@CT01
