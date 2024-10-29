@@ -3,18 +3,18 @@ name: Java Maven Build and Test
 on:
   push:
     branches:
-      - main  # Executa sempre que um push for feito na branch 'main'
+      - main
   pull_request:
     branches:
-      - main  # Executa ao abrir um Pull Request para 'main'
+      - main
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Usando ambiente Linux
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout do código
-        uses: actions/checkout@v3  # Baixa o código do repositório
+        uses: actions/checkout@v3
 
       - name: Configurar JDK 11
         uses: actions/setup-java@v3
