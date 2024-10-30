@@ -141,6 +141,14 @@ public class CheckoutSteps {
         driver.quit();
     }
 
+    @When("clico em cancelar e retorno a tela anterior antes de encerrar")
+    public void clicarCancelarAntesDeEncerrar() {
+    	esperarSerVisivel(botaoCancelar,2);
+    	util.clicarElemento(botaoCancelar);
+    	util.espera(1);
+        Assert.assertTrue(driver.getCurrentUrl().contains("cart.html"));
+    }
+
     @When("clico no botão em Finish")
     public void clicarFinalizar() {
     	esperarSerVisivel(botaoFinalizar,2);

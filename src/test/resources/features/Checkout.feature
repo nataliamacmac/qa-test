@@ -25,7 +25,7 @@ Feature: Funcionalidade de Checkout
   Scenario: Removendo item do carrinho
     When adiciono o primeiro item da página ao carrinho
     And acesso o carrinho e clico em checkout
-    And clico em cancelar e retorno a tela anterior
+    And clico em cancelar e retorno a tela anterior antes de encerrar
     When eu removo o item
     Then o carrinho tem sua quantidade atualizada
 
