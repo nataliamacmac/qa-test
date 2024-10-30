@@ -17,7 +17,7 @@
      plugin = { 
     		 "pretty", 
     		 "html:target/cucumber-reports.html" 
-     },tags = "@Checkout"
+     },tags = "@Checkout and @CT05"
  )
  public class Runner {
  }

@@ -1,39 +1,141 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>qa-test</groupId>
-  <artifactId>qa-test</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <groupId>natalia.machado</groupId>
+  <artifactId>test-qaa-base</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>qa-test</name>
+	<properties>
+		<sourceDirectory>src</sourceDirectory>
+		<testSourceDirectory>src/test/java</testSourceDirectory>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<cucumber.version>7.11.0</cucumber.version>
+		<gson.version>2.8.5</gson.version>
+		<commons-io.version>2.6</commons-io.version>
+		<commons-lang3.version>3.10</commons-lang3.version>
+		<junit.version>4.13.2</junit.version>
+		<hamcrest.version>2.1</hamcrest.version>
+		<logback-core.version>1.2.3</logback-core.version>
+		<slf4j-api.version>1.7.30</slf4j-api.version>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+	</properties>
+
   <dependencies>
-       <dependency>
-         <groupId>org.seleniumhq.selenium</groupId>
-         <artifactId>selenium-java</artifactId>
-         <version>4.0.0</version>
-       </dependency>
-       <dependency>
-         <groupId>io.cucumber</groupId>
-         <artifactId>cucumber-java</artifactId>
-         <version>7.0.0</version>
-       </dependency>
-       <dependency>
-         <groupId>io.cucumber</groupId>
-         <artifactId>cucumber-junit</artifactId>
-         <version>7.0.0</version>
-       </dependency>
-	   <dependency>
-		 <groupId>io.github.bonigarcia</groupId>
-		 <artifactId>webdrivermanager</artifactId>
-		 <version>5.3.0</version>
-	   </dependency>
-	</dependencies>
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.13.2</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.json</groupId>
+        <artifactId>json</artifactId>
+        <version>20220924</version>
+    </dependency>
+
+    <dependency>
+        <groupId>io.cucumber</groupId>
+        <artifactId>cucumber-java</artifactId>
+        <version>${cucumber.version}</version>
+    </dependency>
+
+    <dependency>
+        <groupId>com.microfocus.adm.almoctane.bdd</groupId>
+        <artifactId>octane-cucumber-jvm</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>4.7.2</version>
+    </dependency>
+
+    <dependency>
+        <groupId>io.cucumber</groupId>
+        <artifactId>cucumber-junit</artifactId>
+        <version>${cucumber.version}</version>
+        <scope>test</scope>
+    </dependency>
+
+    <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>${commons-lang3.version}</version>
+    </dependency>
+
+    <dependency>
+        <groupId>commons-logging</groupId>
+        <artifactId>commons-logging</artifactId>
+        <version>1.2</version>
+    </dependency>
+
+    <dependency>
+        <groupId>joda-time</groupId>
+        <artifactId>joda-time</artifactId>
+        <version>2.2</version>
+    </dependency>
+
+    <dependency>
+        <!-- Dependencia para geracao de strings aleatorias com pattern -->
+        <groupId>com.github.mifmif</groupId>
+        <artifactId>generex</artifactId>
+        <version>1.0.2</version>
+    </dependency>
+
+    <!-- dependencia RestAssured -->
+
+    <dependency>
+        <groupId>io.rest-assured</groupId>
+        <artifactId>rest-assured</artifactId>
+        <version>4.3.2</version>
+    </dependency>
+
+    <dependency>
+        <groupId>io.jsonwebtoken</groupId>
+        <artifactId>jjwt</artifactId>
+        <version>0.9.1</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.yaml</groupId>
+        <artifactId>snakeyaml</artifactId>
+        <version>1.29</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi</artifactId>
+        <version>5.2.3</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi-ooxml</artifactId>
+        <version>5.2.3</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.apache.pdfbox</groupId>
+        <artifactId>pdfbox</artifactId>
+        <version>2.0.26</version>
+    </dependency>
+  </dependencies>
 	<build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>11</source>
-                    <target>11</target>
-                </configuration>
-            </plugin>           
-        </plugins>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<testFailureIgnore>false</testFailureIgnore>
+					<includes>
+						<include>**/*Runner.java</include>
+					</includes>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>

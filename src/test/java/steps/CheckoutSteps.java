@@ -138,7 +138,7 @@ public class CheckoutSteps {
     	util.clicarElemento(botaoCancelar);
     	util.espera(1);
         Assert.assertTrue(driver.getCurrentUrl().contains("cart.html"));
-        //driver.quit();
+        driver.quit();
     }
 
     @When("clico no botão em Finish")
@@ -167,19 +167,19 @@ public class CheckoutSteps {
     @Then("mostra o resumo das quantidades e valores")
     public void validarTelaFinalComResumo() {
     	util.espera(1);
-        Assert.assertTrue("O item do carrinho não está visível.", util.elementoEstaVisivel(itemCarrinho));
+        Assert.assertTrue("O item do carrinho está visível.", util.elementoEstaVisivel(itemCarrinho));
         
         WebElement nomeProduto = driver.findElement(By.className("inventory_item_name"));
-        Assert.assertEquals("Nome do produto está incorreto.", "Sauce Labs Backpack", nomeProduto.getText());
+        Assert.assertEquals("Nome do produto está correto.", "Sauce Labs Backpack", nomeProduto.getText());
         
         WebElement quantidadeProduto = driver.findElement(By.className("summary_quantity"));
-        Assert.assertEquals("A quantidade do produto está incorreta.", "1", quantidadeProduto.getText());
+        Assert.assertEquals("A quantidade do produto está correta.", "1", quantidadeProduto.getText());
         
         WebElement precoProduto = driver.findElement(By.className("summary_subtotal_label"));
-        Assert.assertTrue("O preço do produto está incorreto.", precoProduto.getText().contains("$29.99"));
+        Assert.assertTrue("O preço do produto está correto.", precoProduto.getText().contains("$29.99"));
         
         WebElement subtotal = driver.findElement(By.className("summary_total_label"));
-        Assert.assertTrue("O subtotal do pedido está incorreto.", subtotal.getText().contains("$32.39"));
+        Assert.assertTrue("O subtotal do pedido está correto.", subtotal.getText().contains("$32.39"));
 
         driver.quit();
     }
