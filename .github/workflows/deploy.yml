@@ -6,22 +6,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    container:
-      image: seleniarm/standalone-chromium:latest  # Docker com Selenium e Chrome
-
     steps:
-      - name: Set permissions
-        run: sudo chmod -R 777 /__w/_temp /__w/_actions  # Concede acesso total ao diretório temporário
-
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up JDK 11
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: '11'
-          distribution: 'temurin'
+          java-version: 17
+
+      - name: Install Chrome and ChromeDriver
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+          sudo apt-get install -y chromium-chromedriver
+          sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/local/bin/chromedriver
 
       - name: Run Tests with Maven
-        run: |
-          mvn clean test -Dbrowser=chrome
+        run: mvn clean test -Dbrowser=chrome
