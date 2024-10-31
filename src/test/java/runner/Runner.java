@@ -14,10 +14,12 @@
      useFileNameCompatibleName = false,
      features = "src/test/resources/features",
      glue = "steps",
-     plugin = { 
-    		 "pretty", 
-    		 "html:target/cucumber-reports.html" 
-     },tags = "@Checkout"
+     plugin = {
+        "pretty",
+        "json:target/cucumber-reports/cucumber.json",
+        "html:target/cucumber-reports/cucumber-html-report.html",
+        "message:target/cucumber-reports/cucumber.ndjson"
+    },tags = "@Checkout"
  )
  public class Runner {
  }
