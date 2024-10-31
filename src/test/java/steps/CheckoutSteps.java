@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -212,6 +213,7 @@ public class CheckoutSteps {
 
     public void configurarDriver() {
         Properties prop = new Properties();
+
         try {
             FileInputStream input = new FileInputStream("config.properties");
             prop.load(input);
@@ -220,19 +222,45 @@ public class CheckoutSteps {
             throw new RuntimeException("Não foi possível carregar o arquivo config.properties");
         }
 
+        // Detectar o ambiente e navegador a partir do config.properties
+        String environment = prop.getProperty("environment", "local").toLowerCase();
         String browser = prop.getProperty("browser", "chrome").toLowerCase();
-        String chromeDriver = prop.getProperty("chromeDriver", "C:/Automacao/Drivers/113/chromedriver.exe").toLowerCase();
-        String geckoDriver = prop.getProperty("geckoDriver", "C:/Automacao/Drivers/113/geckoDriver.exe").toLowerCase();
 
-        if (browser.equals("firefox")) {
-            System.setProperty("webdriver.gecko.driver", geckoDriver);
-            driver = new FirefoxDriver();
-        } else {
-            System.setProperty("webdriver.chrome.driver", chromeDriver);
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--remote-allow-origins=*");
-            driver = new ChromeDriver(options);
+        // Configuração dos drivers com caminhos específicos
+        String chromeDriverPath = prop.getProperty("chromeDriver", browser);
+        String geckoDriverPath = prop.getProperty("geckoDriver", browser);
+
+        boolean isCiEnvironment = environment.equals("ci") || 
+                    (System.getenv("GITHUB_ACTIONS") != null && System.getenv("GITHUB_ACTIONS").equals("true"));
+
+        // Configurações específicas para o ambiente CI/CD
+        if (isCiEnvironment) {
+            chromeDriverPath = "/usr/local/bin/chromedriver";
+            geckoDriverPath = "/usr/local/bin/geckodriver";
         }
+
+        // Configuração do navegador de acordo com o ambiente e tipo de execução
+        if (browser.equals("firefox")) {
+            System.setProperty("webdriver.gecko.driver", geckoDriverPath);
+            FirefoxOptions firefoxOptions = new FirefoxOptions();
+
+            if (isCiEnvironment) {
+                firefoxOptions.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage");
+            }
+
+            driver = new FirefoxDriver(firefoxOptions);
+        } else {
+            System.setProperty("webdriver.chrome.driver", chromeDriverPath);
+            ChromeOptions chromeOptions = new ChromeOptions();
+
+            if (isCiEnvironment) {
+                chromeOptions.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage");
+            }
+
+            chromeOptions.addArguments("--remote-allow-origins=*");
+            driver = new ChromeDriver(chromeOptions);
+        }
+
         PageFactory.initElements(driver, this);
     }
     

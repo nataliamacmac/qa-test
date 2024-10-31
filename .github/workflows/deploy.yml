@@ -1,16 +1,13 @@
-name: Java Maven Deploy
+name: Selenium Tests
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    container:
+      image: seleniarm/standalone-chromium:latest  # Docker com Selenium e Chrome
 
     steps:
       - name: Checkout code
@@ -22,16 +19,6 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
 
-      - name: Cache Maven packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-m2
-
-      - name: Build with Maven
-        run: mvn clean install
-
-      - name: Run Cucumber Tests
-        run: mvn test
+      - name: Run Tests with Maven
+        run: |
+          mvn clean test -Dbrowser=chrome
