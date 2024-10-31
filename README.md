@@ -62,9 +62,9 @@ Este projeto usa um arquivo `config.properties` para definir algumas configuraç
 
 -   **browser**: Define qual navegador será utilizado para os testes. Pode ser `chrome` ou `firefox`.
     
--   **chromeDriver**: Caminho para o executável do ChromeDriver, caso não esteja no PATH do sistema. Exemplo: `drivers/chromedriver.exe`
+-   **chromeDriver**: Caminho para o executável do ChromeDriver, caso não esteja no PATH do sistema. Exemplo: `C:/Automacao/drivers/chromedriver.exe`
     
--   **geckoDriver**: Caminho para o executável do GeckoDriver, caso não esteja no PATH do sistema. Exemplo: `drivers/geckodriver.exe`
+-   **geckoDriver**: Caminho para o executável do GeckoDriver, caso não esteja no PATH do sistema. Exemplo: `C:/Automacao/drivers/geckodriver.exe`
     
 -   **environment**: Define o ambiente em que os testes serão executados. Pode ser `local` ou `ci`. Quando definido como `ci`, serão aplicadas configurações específicas para execução em pipelines de CI/CD, como GitHub Actions.
     
@@ -75,8 +75,8 @@ Exemplo de arquivo `config.properties`:
 
 ```
 browser=chrome
-chromeDriver=drivers/chromedriver.exe
-geckoDriver=drivers/geckodriver.exe
+chromeDriver=C:/Automacao/drivers/chromedriver.exe
+geckoDriver=C:/Automacao/drivers/geckodriver.exe
 environment=local
 ```
 ## ▶️ Como Executar os Testes
