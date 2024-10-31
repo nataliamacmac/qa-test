@@ -10,6 +10,9 @@ jobs:
       image: seleniarm/standalone-chromium:latest  # Docker com Selenium e Chrome
 
     steps:
+      - name: Set permissions
+        run: sudo chmod -R 777 /__w/_temp /__w/_actions  # Concede acesso total ao diretório temporário
+
       - name: Checkout code
         uses: actions/checkout@v3
 
