@@ -23,7 +23,7 @@ jobs:
 
       - name: Install ChromeDriver
         run: |
-          CHROME_VERSION=$(google-chrome --version | grep -oP "\d+" | head -n 1)
+          CHROME_VERSION=$(google-chrome --version | grep -oP "\d+\.\d+\.\d+\.\d+")
           wget -N "https://storage.googleapis.com/chrome-for-testing-public/$CHROME_VERSION/chromedriver_linux64.zip" -P /tmp/
           unzip -o /tmp/chromedriver_linux64.zip -d /tmp/
           sudo mv /tmp/chromedriver /usr/local/bin/chromedriver
