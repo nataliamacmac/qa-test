@@ -13,14 +13,15 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: 17
+          java-version: 11
+          distribution: 'temurin'
 
       - name: Install Chrome and ChromeDriver
         run: |
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
-          sudo apt-get install -y chromium-chromedriver
-          sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/local/bin/chromedriver
+          sudo apt-get install -y chromedriver
+          sudo ln -s /usr/bin/chromedriver /usr/local/bin/chromedriver
 
       - name: Run Tests with Maven
         run: mvn clean test -Dbrowser=chrome
