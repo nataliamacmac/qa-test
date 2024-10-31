@@ -38,5 +38,6 @@ jobs:
       - name: Run Tests with Maven and Publish Report
         env:
           CUCUMBER_PUBLISH_TOKEN: ${{ secrets.CUCUMBER_PUBLISH_TOKEN }}
-        run: mvn clean test -Dbrowser=chrome "-Dcucumber.publish.enabled=true"
-             echo "Enviando relatório para Cucumber Reports..."
+        run: |
+          mvn clean test -Dbrowser=chrome "-Dcucumber.publish.enabled=true"
+
