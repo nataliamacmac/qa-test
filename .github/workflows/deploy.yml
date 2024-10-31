@@ -16,11 +16,6 @@ jobs:
           java-version: 17
           distribution: 'temurin'
 
-      - name: Install Google Chrome
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
-
       - name: Install Google Chrome and ChromeDriver
         run: |
           CHROME_VERSION="129.0.6668.100"  # Substitua pela versão desejada
