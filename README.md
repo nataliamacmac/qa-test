@@ -109,13 +109,19 @@ mvn clean test -Dbrowser=firefox
 
 Após a execução, um relatório será gerado automaticamente na pasta `target/cucumber-reports`.
 
+Também será gerada a versão online em:
+-   **Cucumber Reports**: [Acessar](https://reports.cucumber.io/reports/7bd63210-02d2-41ef-89f2-1c99d6f950b1)
+
+![image](https://github.com/user-attachments/assets/aef4dd6c-eee9-4d67-ac47-19604358c8ce)
+
+
 ## 🔄 Integração com CI/CD
 
 Este projeto já está configurado para integração com **GitHub Actions**. A cada push na branch **main**, o pipeline de testes será executado automaticamente.
 
 Você pode verificar o status das execuções na aba **Actions** do repositório.
 
-> ⚠️ **Nota:** A integração com CI/CD ainda não foi testada por restrições na máquina de origem.
+> ⚠️ **Nota:** A integração com CI/CD testada.
 
 ## 🤝 Contribuições
 
@@ -125,6 +131,6 @@ Sinta-se à vontade para abrir **issues** e **pull requests** para melhorias e c
 
 Caso tenha dúvidas ou problemas, entre em contato:
 
--   **Autor**: Natália Mac
+-   **Autor**: Natália Machado
     
 -   **GitHub**: [nataliamacmac](https://github.com/nataliamacmac)
