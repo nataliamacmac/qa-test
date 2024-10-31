@@ -14,7 +14,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: 17
-          distribution: 'temurin'  # Define a distribuição do JDK
+          distribution: 'temurin'
 
       - name: Install Google Chrome
         run: |
@@ -23,13 +23,17 @@ jobs:
 
       - name: Install ChromeDriver
         run: |
-          CHROME_VERSION=$(google-chrome --version | grep -oP "\d+\.\d+\.\d+")
-          DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
+          CHROME_VERSION=$(google-chrome --version | grep -oP "\d+\.\d+\.\d+" | head -n 1)
+          DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION" || curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE")
+          if [ -z "$DRIVER_VERSION" ]; then
+            echo "Erro ao obter a versão do ChromeDriver"
+            exit 1
+          fi
           wget -N "https://chromedriver.storage.googleapis.com/$DRIVER_VERSION/chromedriver_linux64.zip" -P /tmp/
-          unzip /tmp/chromedriver_linux64.zip -d /tmp/
+          unzip -o /tmp/chromedriver_linux64.zip -d /tmp/
           sudo mv /tmp/chromedriver /usr/local/bin/chromedriver
           sudo chmod +x /usr/local/bin/chromedriver
-          chromedriver --version  # Verifica se o ChromeDriver está instalado corretamente
+          chromedriver --version  # Verifica a versão do ChromeDriver instalada
 
       - name: Run Tests with Maven
         run: mvn clean test -Dbrowser=chrome
